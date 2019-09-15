@@ -15,6 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.co.countrypedia_v2.R;
 import id.co.countrypedia_v2.model.CountryModel;
+import id.co.countrypedia_v2.supportUtil.Utility;
 
 public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.CountryHolder> {
     private List<CountryModel> data;
@@ -69,6 +70,7 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.CountryH
         public void bind(CountryModel country) {
             tvCountry.setText(country.getCountryName());
             tvCapital.setText(country.getCapital());
+            Utility.loadImageFlag(imgNationFlag, country.getFlag(), Utility.loadProgressDrawable(imgNationFlag.getContext()));
         }
     }
 }
