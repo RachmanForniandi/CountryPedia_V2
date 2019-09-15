@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 
@@ -32,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.loading_view)
     ProgressBar loadingView;
 
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout refreshLayout;
+
     CountryAdapter countryAdapter;
 
     ListViewModel listViewModel;
@@ -49,6 +53,10 @@ public class MainActivity extends AppCompatActivity {
         listOfCountries.setLayoutManager(new LinearLayoutManager(this));
         listOfCountries.setAdapter(countryAdapter);
 
+        refreshLayout.setOnRefreshListener(() -> {
+            listViewModel.refresh();
+            refreshLayout.setRefreshing(false);
+        });
         observeViewModel();
 
     }
