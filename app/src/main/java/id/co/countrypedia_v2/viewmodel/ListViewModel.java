@@ -7,6 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import id.co.countrypedia_v2.model.CountryModel;
+import id.co.countrypedia_v2.networkUtils.APICore;
+import id.co.countrypedia_v2.networkUtils.APIService;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 
 public class ListViewModel extends ViewModel {
 
@@ -14,12 +20,15 @@ public class ListViewModel extends ViewModel {
     public MutableLiveData<Boolean>countryLoadError = new MutableLiveData<>();
     public MutableLiveData<Boolean>loading = new MutableLiveData<>();
 
+    private APICore apiCore = APICore.getInstance();
+    private CompositeDisposable disposable = new CompositeDisposable();
+
     public void refresh(){
         fetchCountries();
     }
 
     private void fetchCountries() {
-        CountryModel country1 = new CountryModel("Albania","Tirana","");
+        /*CountryModel country1 = new CountryModel("Albania","Tirana","");
         CountryModel country2 = new CountryModel("Brazil","Rio de Janeiro","");
         CountryModel country3 = new CountryModel("Czechia","Prague","");
         CountryModel country4 = new CountryModel("Spain","Madrid","");
@@ -42,9 +51,34 @@ public class ListViewModel extends ViewModel {
 
         countries.setValue(list);
         countryLoadError.setValue(false);
-        loading.setValue(false);
+        loading.setValue(false);*/
+        loading.setValue(true);
+        disposable.add(
+                apiCore.getCountries()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<List<CountryModel>>() {
+                    @Override
+                    public void onSuccess(List<CountryModel> countryModels) {
+                        countries.setValue(countryModels);
+                        countryLoadError.setValue(false);
+                        loading.setValue(false);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        countryLoadError.setValue(true);
+                        loading.setValue(false);
+                        e.printStackTrace();
+                    }
+                })
+        );
     }
 
+    @Override
+    protected void onCleared() {
+        super.onCleared();
 
+    }
 }
 
