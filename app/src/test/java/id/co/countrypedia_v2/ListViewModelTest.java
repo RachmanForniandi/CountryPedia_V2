@@ -58,6 +58,19 @@ public class ListViewModelTest {
         Assert.assertEquals(false,model.loading.getValue());
 
     }
+
+    @Test
+    public void getDataCountriesFailed(){
+        testSingle = Single.error(new Throwable());
+
+        Mockito.when(apiCore.getDataCountries()).thenReturn(testSingle);
+
+        model.refresh();
+
+        Assert.assertEquals(true,model.countryLoadError.getValue());
+        Assert.assertEquals(false,model.loading.getValue());
+
+    }
     @Before
     public void setupRxSchedulers(){
         Scheduler immediate = new Scheduler() {
