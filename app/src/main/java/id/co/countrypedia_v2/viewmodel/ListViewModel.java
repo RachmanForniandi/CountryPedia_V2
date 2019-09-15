@@ -3,12 +3,10 @@ package id.co.countrypedia_v2.viewmodel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import id.co.countrypedia_v2.model.CountryModel;
 import id.co.countrypedia_v2.networkUtils.APICore;
-import id.co.countrypedia_v2.networkUtils.APIService;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
@@ -54,7 +52,7 @@ public class ListViewModel extends ViewModel {
         loading.setValue(false);*/
         loading.setValue(true);
         disposable.add(
-                apiCore.getCountries()
+                apiCore.getDataCountries()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableSingleObserver<List<CountryModel>>() {
