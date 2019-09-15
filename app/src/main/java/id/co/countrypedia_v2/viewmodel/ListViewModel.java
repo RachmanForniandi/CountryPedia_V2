@@ -33,6 +33,12 @@ public class ListViewModel extends ViewModel {
         list.add(country4);
         list.add(country5);
         list.add(country6);
+        list.add(country1);
+        list.add(country2);
+        list.add(country3);
+        list.add(country4);
+        list.add(country5);
+        list.add(country6);
 
         countries.setValue(list);
         countryLoadError.setValue(false);
