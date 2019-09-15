@@ -5,6 +5,9 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import id.co.countrypedia_v2.di.DaggerAPIComponent;
 import id.co.countrypedia_v2.model.CountryModel;
 import id.co.countrypedia_v2.networkUtils.APICore;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -18,7 +21,14 @@ public class ListViewModel extends ViewModel {
     public MutableLiveData<Boolean>countryLoadError = new MutableLiveData<>();
     public MutableLiveData<Boolean>loading = new MutableLiveData<>();
 
-    private APICore apiCore = APICore.getInstance();
+    @Inject
+    public APICore apiCore = APICore.getInstance();
+
+    public ListViewModel() {
+        super();
+        DaggerAPIComponent.create().injectModel(this);
+    }
+
     private CompositeDisposable disposable = new CompositeDisposable();
 
     public void refresh(){

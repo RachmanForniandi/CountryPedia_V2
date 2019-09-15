@@ -2,6 +2,7 @@ package id.co.countrypedia_v2.di;
 
 import dagger.Module;
 import dagger.Provides;
+import id.co.countrypedia_v2.networkUtils.APICore;
 import id.co.countrypedia_v2.networkUtils.APIService;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -25,5 +26,10 @@ public class APIModule {
 //            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 //            .build()
 //            .create(APIService.class);
+    }
+
+    @Provides
+    public APICore provideApiCore(){
+        return APICore.getInstance();
     }
 }
