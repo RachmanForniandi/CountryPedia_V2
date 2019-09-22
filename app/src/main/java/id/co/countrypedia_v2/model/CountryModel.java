@@ -1,8 +1,15 @@
 package id.co.countrypedia_v2.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class CountryModel {
+    @SerializedName("name")
     String countryName;
+
+    @SerializedName("capital")
     String capital;
+
+    @SerializedName("flagPNG")
     String flag;
 
 
